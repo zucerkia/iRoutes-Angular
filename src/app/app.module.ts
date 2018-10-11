@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { MapComponent } from './components/map/map.component';
 
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 import { AgmCoreModule } from '@agm/core';
 
 
@@ -14,6 +16,7 @@ import { AgmCoreModule } from '@agm/core';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCpw8_DUvYrhlxDSWVzOGw0fQCGyuNMVC0'
     })
