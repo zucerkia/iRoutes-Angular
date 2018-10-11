@@ -1,3 +1,14 @@
 body{
     margin:0;
 }
+
+input{
+    display: inline-block;
+    width: 90%;
+    border-radius: 16px;
+    border: solid 1px #00000085;
+    margin: 8px 0px;
+    padding: 8px 16px;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+
+}

@@ -7,12 +7,14 @@ import { MapComponent } from './components/map/map.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AgmCoreModule } from '@agm/core';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent
+    MapComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
