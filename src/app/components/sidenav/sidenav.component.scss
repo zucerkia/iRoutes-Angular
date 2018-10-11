@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
+
+*, *:before, *:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100vh;
+}
+
+body {
+  font: 600 12px/1 'Open Sans', sans-serif;
+  color: #333;
+  background: #333;
+  overflow-x: hidden;
+}
+
+.wrapper {
+  display: flex;
+  min-height: 100%;
+}
+
+.sidebar {
+  position: absolute;
+  width: 220px;
+}
+
+.content {
+  flex: 1;
+  background: #eee;
+  box-shadow: 0 0 5px rgba(0,0,0,1);
+  transform: translate3d(0,0,0);
+  transition: transform .3s;
+}
+
+.content.isOpen {
+  transform: translate3d(220px,0,0);
+}
+
+.button {
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+}
+
+.button:before {
+  content: '\f0c9';
+  font: 42px fontawesome;
+}
+
+/* Demo Navigation */
+
+.title {
+  font-size: 16px;
+  line-height: 50px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  color: #eee;
+  border-bottom: 1px solid #222;
+  background: #2a2a2a;
+}
+
+/* Demo Description */
+
+h1 {
+  margin: 25px 0 15px;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: 400;
+  color: #999;
+}

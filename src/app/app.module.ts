@@ -7,14 +7,23 @@ import { MapComponent } from './components/map/map.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AgmCoreModule } from '@agm/core';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+
+import {MatIconModule} from '@angular/material/icon';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent
+    MapComponent,
+    SidenavComponent
   ],
   imports: [
+    MatToolbarModule,
+    MatSidenavModule,
+    MatIconModule,
     BrowserModule,
     BrowserAnimationsModule,
     AgmCoreModule.forRoot({
