@@ -20,7 +20,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
   declarations: [
     AppComponent,
     MapComponent,
-    NavbarComponent
+    NavbarComponent,
     SidenavComponent
   ],
   imports: [
