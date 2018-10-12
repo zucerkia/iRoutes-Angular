@@ -1,0 +1,29 @@
+.route-card{
+    background: #bc1e1e;
+    margin: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    padding: 1rem;
+
+   
+
+    .route-card-title{
+        text-align: center;
+        margin: 10px;
+
+        h2{
+            margin: 0;
+            color: white;
+        }
+    }
+
+    .route-card-body{
+        background: white;
+        border-radius: 7px;
+        padding: 1rem;
+
+        p{
+            margin: 0;
+        }
+    }
+}
