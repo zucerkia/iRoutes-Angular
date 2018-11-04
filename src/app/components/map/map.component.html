@@ -1,20 +1,23 @@
 
-<agm-map [latitude]="userLocation.lat" [longitude]="userLocation.lng" [zoom]="zoom">
+<agm-map [latitude]="center.lat" [longitude]="center.lng" [zoom]="zoom">
     <agm-circle   
         [latitude]="userLocation.lat" 
         [longitude]="userLocation.lng" 
         [radius]="200" 
-        [editable]="true" 
         [fillColor]="'red'"
-        [strokeColor]="'black'"
-    ></agm-circle>
-    <agm-circle [latitude]="destinyLocation.lat" [longitude]="destinyLocation.lng" [radius]="200" [visible]="destinyLocation.status" ></agm-circle>
+        [strokeColor]="'black'">
+    </agm-circle>
+    <agm-circle 
+        [latitude]="destinyLocation.lat" 
+        [longitude]="destinyLocation.lng" 
+        [radius]="200" 
+        [fillColor]="'red'" >
+    </agm-circle>
 </agm-map>
-
+<!-- [visible]="destinyLocation.status" -->
+ 
 <div class="search-input">
     <input [(ngModel)]='address' (blur)="setDestinyLocation(address)" type="text">    
-    <button (click)="getCommonRoutes()">hola</button>
-
-
+    <button (click)="getCommonRoutes()">Buscar</button>
 </div>
 

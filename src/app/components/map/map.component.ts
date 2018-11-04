@@ -15,6 +15,7 @@ export class MapComponent implements OnInit {
   geocoder:any;
   address:string;
 
+  public zoom = 16;
   public userLocation: any = {
     lat: 0,
     lng: 0
@@ -24,6 +25,11 @@ export class MapComponent implements OnInit {
     lat: 0,
     lng: 0,
     status: false
+  };
+
+  public center: any = {
+    lat: 0,
+    lng: 0,
   };
 
   public routes:any = [];
@@ -102,6 +108,8 @@ export class MapComponent implements OnInit {
         this.userLocation.lat = pos.coords.latitude;
         this.userLocation.lng = pos.coords.longitude;
 
+        this.center = Object.assign({},this.userLocation);
+        console.log("coordenada de origen: ");
         console.log(this.userLocation);
         this.searchRoutes(this.userLocation);
       })
@@ -119,15 +127,24 @@ export class MapComponent implements OnInit {
           this.destinyLocation.lat = results[0].geometry.location.lat();
           this.destinyLocation.lng = results[0].geometry.location.lng();
           this.destinyLocation.status = true;
-
+          
+          console.log("coordenada de Destino: ");
           console.log(this.destinyLocation);
+          this.setMiddlePoint();
           this.searchRoutes(this.destinyLocation);
         }
-        this.map.triggerResize()
+        // this.map.triggerResize()
+        this.zoom = 14;
       } else {
         alert("Intenta con otra dirección");
       }
     })
+  }
+
+  setMiddlePoint(){
+
+    this.center.lat = (this.userLocation.lat + this.destinyLocation.lat)/2;
+    this.center.lng = (this.userLocation.lng + this.destinyLocation.lng)/2;
   }
 
 }
