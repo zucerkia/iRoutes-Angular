@@ -1,18 +1,23 @@
 
 <agm-map [latitude]="center.lat" [longitude]="center.lng" [zoom]="zoom">
     <agm-circle   
-        [latitude]="userLocation.lat" 
-        [longitude]="userLocation.lng" 
+        [latitude]="origin.location.lat" 
+        [longitude]="origin.location.lng" 
         [radius]="200" 
         [fillColor]="'red'"
         [strokeColor]="'black'">
     </agm-circle>
     <agm-circle 
-        [latitude]="destinyLocation.lat" 
-        [longitude]="destinyLocation.lng" 
+        [latitude]="destiny.location.lat" 
+        [longitude]="destiny.location.lng" 
         [radius]="200" 
         [fillColor]="'red'" >
     </agm-circle>
+
+    <agm-polyline *ngFor="let route of commonRoutes" [editable]="false">
+        <agm-polyline-point *ngFor="let coords of route.Coordenadas" [latitude]="coords.lat" [longitude]="coords.lng" ></agm-polyline-point>
+    </agm-polyline>
+
 </agm-map>
 <!-- [visible]="destinyLocation.status" -->
  
