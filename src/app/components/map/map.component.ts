@@ -16,24 +16,45 @@ export class MapComponent implements OnInit {
   address:string;
 
   public zoom = 16;
-  public userLocation: any = {
-    lat: 0,
-    lng: 0
-  };
 
-  public destinyLocation: any = {
-    lat: 0,
-    lng: 0,
-    status: false
-  };
+  public origin: any = {
+    location:{
+      lat:0,
+      lng:0
+    },
+    nearRoutes:[],
+    routeNames:[]
+  }
+
+  public destiny: any = {
+    location:{
+      lat:0,
+      lng:0,
+      visibility:false
+    },
+    nearRoutes:[],
+    routeNames:[]
+  }
+
+  // public userLocation: any = {
+  //   lat: 0,
+  //   lng: 0
+  // };
+
+  // public destinyLocation: any = {
+  //   lat: 0,
+  //   lng: 0,
+  //   status: false
+  // };
 
   public center: any = {
     lat: 0,
     lng: 0,
   };
 
-  public routes:any = [];
-  public routesNames:any[] =[];
+  public commonRoutes:any = [];
+  // public routes:any = [];
+  // public routesNames:any = [];
   
   @ViewChild(AgmMap) map: AgmMap;
  
@@ -51,23 +72,22 @@ export class MapComponent implements OnInit {
   
    }
 
-   async ngOnInit() {
-
-    await this.getUserLocation()
-    // this.status = true;
+  ngOnInit() {
+    this.getUserLocation();
+    // console.log(this.origin.location.lng);
   }
   
-  searchRoutes(position:any){
-    this.geocoderService.getRoutes(500,position.lat,position.lng)
+  searchRoutes(item:any){
+    this.geocoderService.getRoutes(500,item.location.lat,item.location.lng)
     .toPromise().then((data:any)=>{
-      // this.routes = data;
-      // console.log(data);
       data.forEach(element => {
-        this.routesNames.push(element["Nombre"]);
-        this.routes.push(element);
+        // console.log(item.routeNames);
+        // console.log(item.nearRoutes);
+        item.routeNames.push(element["Nombre"]);
+        item.nearRoutes.push(element);
       });
 
-      return data;
+      // return data;
     })
   }
 
@@ -85,33 +105,41 @@ export class MapComponent implements OnInit {
 
   getCommonRoutes(){
    
-    console.log(this.routesNames);
+    console.log(this.origin.routeNames);
+    console.log(this.destiny.routeNames);
 
     let commonRoutes = [];
-    let commonRoutesNames = this.findDuplicated(this.routesNames);
+    let names = this.origin.routeNames.concat(this.destiny.routeNames);
+    let arrRoutes = this.origin.nearRoutes.concat(this.destiny.nearRoutes);
+
+    let commonRoutesNames = this.findDuplicated(names);
     commonRoutesNames.forEach(common => {
-      for(let i = 0;i<this.routes.length;i++){
-        if(this.routes[i]["Nombre"]==common){
-          commonRoutes.push(this.routes[i]);
+      for(let i = 0;i<arrRoutes.length;i++){
+        if(arrRoutes[i]["Nombre"]==common){
+          commonRoutes.push(arrRoutes[i]);
           break;
         }
       }  
     });
 
-    console.log(commonRoutes);
-    this.routesNames=[];
+    this.commonRoutes = commonRoutes;
+    console.log(arrRoutes);
+
+    this.destiny.routeNames=[];
+    this.destiny.nearRoutes=[];
   }
 
   getUserLocation(){
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(pos=>{
-        this.userLocation.lat = pos.coords.latitude;
-        this.userLocation.lng = pos.coords.longitude;
+        this.origin.location.lat = pos.coords.latitude;
+        this.origin.location.lng = pos.coords.longitude;
 
-        this.center = Object.assign({},this.userLocation);
+        this.center = Object.assign({},this.origin.location);
+
         console.log("coordenada de origen: ");
-        console.log(this.userLocation);
-        this.searchRoutes(this.userLocation);
+        console.log(this.origin.location);
+        this.searchRoutes(this.origin);
       })
     }
   }
@@ -124,14 +152,15 @@ export class MapComponent implements OnInit {
     }, (results, status) => {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[0].geometry.location) {
-          this.destinyLocation.lat = results[0].geometry.location.lat();
-          this.destinyLocation.lng = results[0].geometry.location.lng();
-          this.destinyLocation.status = true;
+          this.destiny.location.lat = results[0].geometry.location.lat();
+          this.destiny.location.lng = results[0].geometry.location.lng();
+          this.destiny.location.status = true;
           
           console.log("coordenada de Destino: ");
-          console.log(this.destinyLocation);
+          console.log(this.destiny.location);
+
           this.setMiddlePoint();
-          this.searchRoutes(this.destinyLocation);
+          this.searchRoutes(this.destiny);
         }
         // this.map.triggerResize()
         this.zoom = 14;
@@ -143,8 +172,8 @@ export class MapComponent implements OnInit {
 
   setMiddlePoint(){
 
-    this.center.lat = (this.userLocation.lat + this.destinyLocation.lat)/2;
-    this.center.lng = (this.userLocation.lng + this.destinyLocation.lng)/2;
+    this.center.lat = (this.origin.location.lat + this.destiny.location.lat)/2;
+    this.center.lng = (this.origin.location.lng + this.destiny.location.lng)/2;
   }
 
 }
