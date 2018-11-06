@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,Input, ViewChild, NgZone, OnInit } from '@angular/core';
+import { MapsAPILoader, AgmMap } from '@agm/core';
+import { GoogleMapsAPIWrapper } from '@agm/core/services';
+import { GeocoderService } from '../../services/geocoder.service';
+
+declare var google: any;
 
 @Component({
   selector: 'app-map',
@@ -7,13 +12,168 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MapComponent implements OnInit {
 
+  geocoder:any;
+  address:string;
 
-  lat: number = 51.678418;
-  lng: number = 7.809007;
+  public zoom = 16;
 
-  constructor() { }
+  public origin: any = {
+    location:{
+      lat:0,
+      lng:0
+    },
+    nearRoutes:[],
+    routeNames:[]
+  }
+
+  public destiny: any = {
+    location:{
+      lat:0,
+      lng:0,
+      visibility:false
+    },
+    nearRoutes:[],
+    routeNames:[]
+  }
+
+  // public userLocation: any = {
+  //   lat: 0,
+  //   lng: 0
+  // };
+
+  // public destinyLocation: any = {
+  //   lat: 0,
+  //   lng: 0,
+  //   status: false
+  // };
+
+  public center: any = {
+    lat: 0,
+    lng: 0,
+  };
+
+  public commonRoutes:any = [];
+  // public routes:any = [];
+  // public routesNames:any = [];
+  
+  @ViewChild(AgmMap) map: AgmMap;
+ 
+  constructor(private geocoderService: GeocoderService,
+              private zone: NgZone,
+              private wrapper: GoogleMapsAPIWrapper,
+              private mapsApiLoader: MapsAPILoader){
+    
+    this.mapsApiLoader = mapsApiLoader;
+    this.zone = zone;
+    this.wrapper = wrapper;
+    this.mapsApiLoader.load().then(() => {
+    this.geocoder = new google.maps.Geocoder();
+    });
+  
+   }
 
   ngOnInit() {
+    this.getUserLocation();
+    // console.log(this.origin.location.lng);
+  }
+  
+  searchRoutes(item:any){
+    this.geocoderService.getRoutes(500,item.location.lat,item.location.lng)
+    .toPromise().then((data:any)=>{
+      data.forEach(element => {
+        // console.log(item.routeNames);
+        // console.log(item.nearRoutes);
+        item.routeNames.push(element["Nombre"]);
+        item.nearRoutes.push(element);
+      });
+
+      // return data;
+    })
+  }
+
+  findDuplicated(arr:any[]){
+    let n = 0;
+    let duplicated = [];
+    arr.sort();
+    while (n < arr.length) {
+      let item;
+      item = arr[n+1] == arr[n] ? duplicated.push(arr.splice(n,1)) : n++;
+    }
+
+    return duplicated;
+  }
+
+  getCommonRoutes(){
+   
+    console.log(this.origin.routeNames);
+    console.log(this.destiny.routeNames);
+
+    let commonRoutes = [];
+    let names = this.origin.routeNames.concat(this.destiny.routeNames);
+    let arrRoutes = this.origin.nearRoutes.concat(this.destiny.nearRoutes);
+
+    let commonRoutesNames = this.findDuplicated(names);
+    commonRoutesNames.forEach(common => {
+      for(let i = 0;i<arrRoutes.length;i++){
+        if(arrRoutes[i]["Nombre"]==common){
+          commonRoutes.push(arrRoutes[i]);
+          break;
+        }
+      }  
+    });
+
+    this.commonRoutes = commonRoutes;
+    console.log(arrRoutes);
+
+    this.destiny.routeNames=[];
+    this.destiny.nearRoutes=[];
+  }
+
+  getUserLocation(){
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(pos=>{
+        this.origin.location.lat = pos.coords.latitude;
+        this.origin.location.lng = pos.coords.longitude;
+
+        this.center = Object.assign({},this.origin.location);
+
+        console.log("coordenada de origen: ");
+        console.log(this.origin.location);
+        this.searchRoutes(this.origin);
+      })
+    }
+  }
+
+  setDestinyLocation(address){
+    if (!this.geocoder) this.geocoder = new google.maps.Geocoder()
+
+    this.geocoder.geocode({
+      'address': address + ' Medellín' 
+    }, (results, status) => {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[0].geometry.location) {
+          this.destiny.location.lat = results[0].geometry.location.lat();
+          this.destiny.location.lng = results[0].geometry.location.lng();
+          this.destiny.location.status = true;
+          
+          console.log("coordenada de Destino: ");
+          console.log(this.destiny.location);
+
+          this.setMiddlePoint();
+          this.searchRoutes(this.destiny);
+        }
+        // this.map.triggerResize()
+        this.zoom = 14;
+      } else {
+        alert("Intenta con otra dirección");
+      }
+    })
+  }
+
+  setMiddlePoint(){
+
+    this.center.lat = (this.origin.location.lat + this.destiny.location.lat)/2;
+    this.center.lng = (this.origin.location.lng + this.destiny.location.lng)/2;
   }
 
 }

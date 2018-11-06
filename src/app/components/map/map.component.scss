@@ -1,3 +1,9 @@
 agm-map {
     height: 100vh;
   }
+
+.search-input{
+  position: absolute;
+  top:60px;
+  left: calc(50% - (203px/2));
+}
