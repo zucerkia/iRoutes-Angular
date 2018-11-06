@@ -16,6 +16,7 @@ export class MapComponent implements OnInit {
   address:string;
 
   public zoom = 16;
+  public radius = 500;
 
   public origin: any = {
     location:{
@@ -64,8 +65,8 @@ export class MapComponent implements OnInit {
   }
   
   searchRoutes(item:any){
-    this.geocoderService.getRoutes(500,item.location.lat,item.location.lng)
-    .toPromise().then((data:any)=>{
+    this.geocoderService.getRoutes(this.radius,item.location.lat,item.location.lng)
+    .subscribe((data:any)=>{
       data.forEach(element => {
        
         item.routeNames.push(element["Nombre"]);
@@ -89,8 +90,7 @@ export class MapComponent implements OnInit {
 
   getCommonRoutes(){
    
-    this.setDestinyLocation(this.address)
-    this.zoom = 14;
+    // this.setDestinyLocation(this.address);
 
     console.log(this.origin.routeNames);
     console.log(this.destiny.routeNames);
@@ -110,7 +110,7 @@ export class MapComponent implements OnInit {
     });
 
     this.commonRoutes = commonRoutes;
-    console.log(arrRoutes);
+    console.log(commonRoutes);
 
     this.destiny.routeNames=[];
     this.destiny.nearRoutes=[];
@@ -118,9 +118,9 @@ export class MapComponent implements OnInit {
 
   getUserLocation(){
     if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(pos=>{
-        this.origin.location.lat = pos.coords.latitude;
-        this.origin.location.lng = pos.coords.longitude;
+      navigator.geolocation.getCurrentPosition(async pos=>{
+        this.origin.location.lat = await pos.coords.latitude;
+        this.origin.location.lng = await pos.coords.longitude;
 
         this.center = Object.assign({},this.origin.location);
 
@@ -134,6 +134,13 @@ export class MapComponent implements OnInit {
   setDestinyLocation(address){
     if (!this.geocoder) this.geocoder = new google.maps.Geocoder()
 
+    // let tempStr = {'address': address + ' Medellín'};
+    
+    // this.geocoder.geocode( tempStr ).subscribe(
+    //   result => console.log( "-> RESULT ", result),
+    //   error => console.log("something weird is happening here")
+    // )
+
     this.geocoder.geocode({
       'address': address + ' Medellín' 
     }, (results, status) => {
@@ -146,10 +153,14 @@ export class MapComponent implements OnInit {
           console.log("coordenada de Destino: ");
           console.log(this.destiny.location);
 
-          this.setMiddlePoint();
           this.searchRoutes(this.destiny);
+
+          setTimeout(()=>{
+            this.getCommonRoutes();
+          },1000)
+          this.setMiddlePoint();
+
         }
-        this.map.triggerResize()
       } else {
         alert("Intenta con otra dirección");
       }
@@ -160,6 +171,9 @@ export class MapComponent implements OnInit {
 
     this.center.lat = (this.origin.location.lat + this.destiny.location.lat)/2;
     this.center.lng = (this.origin.location.lng + this.destiny.location.lng)/2;
+    this.zoom = 14;
+    this.map.triggerResize();
+
   }
 
 }
