@@ -3,14 +3,14 @@
     <agm-circle   
         [latitude]="origin.location.lat" 
         [longitude]="origin.location.lng" 
-        [radius]="200" 
+        [radius]="radius" 
         [fillColor]="'red'"
         [strokeColor]="'black'">
     </agm-circle>
     <agm-circle 
         [latitude]="destiny.location.lat" 
         [longitude]="destiny.location.lng" 
-        [radius]="200" 
+        [radius]="radius" 
         [fillColor]="'red'" >
     </agm-circle>
 
@@ -22,7 +22,7 @@
 <!-- [visible]="destinyLocation.status" -->
  
 <div class="search-input">
-    <input [(ngModel)]='address' (blur)="setDestinyLocation(address)" type="text">    
-    <button (click)="getCommonRoutes()">Buscar</button>
+    <input [(ngModel)]='address' type="text" placeholder="Busca un lugar ...">    
+    <button class="searchBtn" (click)="setDestinyLocation(address)">BUSCAR</button>
 </div>
 

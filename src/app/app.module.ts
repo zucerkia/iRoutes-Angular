@@ -18,14 +18,15 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 // import {MatIconModule} from '@angular/material/icon';
 // import {MatToolbarModule} from '@angular/material/toolbar';
 // import {MatSidenavModule} from '@angular/material/sidenav';
-
+import { CardComponent } from './components/card/card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
     NavbarComponent,
-    SidenavComponent
+    SidenavComponent,
+    CardComponent
   ],
   imports: [
     // MatToolbarModule,

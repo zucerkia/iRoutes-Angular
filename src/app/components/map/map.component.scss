@@ -6,4 +6,22 @@ agm-map {
   position: absolute;
   top:60px;
   left: calc(50% - (203px/2));
+
+
+  input, .searchBtn:focus{
+    outline: none;
+  }
+
+  .searchBtn{
+    position: absolute;
+    left: calc(50% - (105.56px/2));
+    border: 1px solid #00000085;
+    border-top: none;
+    background: #45d383;
+    padding: 0.7rem 1.5rem;
+    bottom: -29px;
+    border-radius: 0px 0px 30px 30px;
+    color: white;
+    cursor: pointer;
+  }
 }
