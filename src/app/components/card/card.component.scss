@@ -2,22 +2,24 @@ $unit:50px;
 $ease : cubic-bezier(.5,0,0,1);
 $thick :4px;
 
-
+.card{
+  width: 100%;
+  height: 100px;
+}
 .profile {
   width: 330px;
   height: 100px;
-  position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(0, 0) scale(0.7);
   border-radius: 5px;
   background-color: black;
-  box-shadow: 0 1px 2rem #babbbc;
-  animation: show-profile 0.5s forwards ease-in-out;
-  .photo, .content {
+  box-shadow: 0 1px 2rem #868686;
+
+  .circle, .content {
     box-sizing: border-box;
   }
-  .photo {
+  .circle {
     width: 100px;
     height: 100px;
     border-radius: 50%;
@@ -27,11 +29,8 @@ $thick :4px;
     background: -webkit-linear-gradient(45deg, #1D2671 10%, #C33764 80%);
     background: linear-gradient(45deg, #1D2671 10%, #C33764 80%);
     margin-left: -50px;
-    box-shadow: 0 0 0.5rem #babbbc;
-    animation: rotate-photo 0.5s forwards ease-in-out;
-    img {
-      width: 100%;
-    }
+    box-shadow: 0 0 0.6rem #868686;
+    animation: rotate-photo 1.5s infinite linear;
   }
   .content {
     padding: 10px;
