@@ -1,7 +1,8 @@
-import { Component,Input, ViewChild, NgZone, OnInit } from '@angular/core';
+import { Component,Input, NgZone, OnInit,ViewChild, Output, EventEmitter } from '@angular/core';
 import { MapsAPILoader, AgmMap } from '@agm/core';
 import { GoogleMapsAPIWrapper } from '@agm/core/services';
 import { GeocoderService } from '../../services/geocoder.service';
+
 
 declare var google: any;
 
@@ -11,7 +12,7 @@ declare var google: any;
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
-
+  @Output() mapEmitEvent:EventEmitter<any> = new EventEmitter<any>();
   geocoder:any;
   address:string;
 
@@ -115,7 +116,7 @@ export class MapComponent implements OnInit {
       // alert("No se encontraron rutas que coincidan con los puntos");
     }
     console.log(commonRoutes);
-
+    this.mapEmitEvent.emit(commonRoutes);
     this.destiny.routeNames=[];
     this.destiny.nearRoutes=[];
   }

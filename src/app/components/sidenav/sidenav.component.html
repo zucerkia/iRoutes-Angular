@@ -4,12 +4,12 @@
       iRoutes
     </div>
     <ul class='nav'>
-        <app-card></app-card>
+        <app-card [cardRoute]="cardRoute" *ngFor="let cardRoute of commonRoutes"></app-card>
     </ul>
   </div>
   <div class='content' [ngClass]="calculateClasses()">
     <a class='button' (click)="toggle()"></a>
-    <app-map></app-map>
+    <app-map #map></app-map>
     <!-- <app-navbar></app-navbar> -->
   </div>
 </div>
