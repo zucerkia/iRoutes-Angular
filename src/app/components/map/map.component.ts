@@ -110,6 +110,10 @@ export class MapComponent implements OnInit {
     });
 
     this.commonRoutes = commonRoutes;
+
+    if(commonRoutes.length==0){
+      // alert("No se encontraron rutas que coincidan con los puntos");
+    }
     console.log(commonRoutes);
 
     this.destiny.routeNames=[];
@@ -168,12 +172,17 @@ export class MapComponent implements OnInit {
   }
 
   setMiddlePoint(){
-
+    this.zoom = 18;
     this.center.lat = (this.origin.location.lat + this.destiny.location.lat)/2;
     this.center.lng = (this.origin.location.lng + this.destiny.location.lng)/2;
     this.zoom = 14;
     this.map.triggerResize();
 
   }
+
+  // getRandomColor(){
+  //   var color = Math.floor(0x1000000 * Math.random()).toString(16);
+  //   return '#' + ('000000' + color).slice(-6);
+  // }
 
 }
