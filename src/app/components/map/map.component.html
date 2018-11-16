@@ -14,7 +14,7 @@
         [fillColor]="'red'" >
     </agm-circle>
 
-    <agm-polyline *ngFor="let route of commonRoutes" [editable]="false">
+    <agm-polyline *ngFor="let route of commonRoutes" [strokeColor]="route.color" [editable]="false" [visible]="route.visible">
         <agm-polyline-point *ngFor="let coords of route.Coordenadas" [latitude]="coords.lat" [longitude]="coords.lng" ></agm-polyline-point>
     </agm-polyline>
 

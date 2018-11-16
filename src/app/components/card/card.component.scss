@@ -25,9 +25,9 @@ $thick :4px;
     border-radius: 50%;
     overflow: hidden;
     border: 5px solid #fafafa;
-    background: #C33764;
-    background: -webkit-linear-gradient(45deg, #1D2671 10%, #C33764 80%);
-    background: linear-gradient(45deg, #1D2671 10%, #C33764 80%);
+    // background: #C33764;
+    // background: -webkit-linear-gradient(45deg, #1D2671 10%, #C33764 80%);
+    // background: linear-gradient(45deg, #1D2671 10%, #C33764 80%);
     margin-left: -50px;
     box-shadow: 0 0 0.6rem #868686;
     animation: rotate-photo 1.5s infinite linear;
@@ -43,16 +43,16 @@ $thick :4px;
     &::before {
       content: "";
       position: absolute;
-      background: #C33764;
-    background: -webkit-linear-gradient(45deg, #1D2671 10%, #C33764 80%);
-    background: linear-gradient(45deg, #1D2671 10%, #C33764 80%);
+      background: black;
+    // background: -webkit-linear-gradient(45deg, #1D2671 10%, #C33764 80%);
+    // background: linear-gradient(45deg, #1D2671 10%, #C33764 80%);
       width: 230px;
       height: 150px;
       left: 0;
       top: -20px;
       z-index: -1;
       transform: rotate(-8deg);
-      box-shadow: 0 0 0.7rem #C33764;
+      box-shadow: 0 0 0.7rem white;
     }
     .text {
       margin-top: 20px;
@@ -62,12 +62,13 @@ $thick :4px;
         margin: 3px 0;
         letter-spacing: 0.5px;
         white-space: nowrap;
+        color: white;
       }
     }
     .btn {
-      background: #C33764;
-    background: -webkit-linear-gradient(45deg, #1D2671 10%, #C33764 80%);
-    background: linear-gradient(45deg, #1D2671 10%, #C33764 80%);
+      // background: #C33764;
+    // background: -webkit-linear-gradient(45deg, #1D2671 10%, #C33764 80%);
+    // background: linear-gradient(45deg, #1D2671 10%, #C33764 80%);
       width: 50px;
       height: 50px;
       position: absolute;

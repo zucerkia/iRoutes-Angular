@@ -1,7 +1,8 @@
-import { Component,Input, ViewChild, NgZone, OnInit } from '@angular/core';
+import { Component,Input, NgZone, OnInit,OnChanges,ViewChild, Output, EventEmitter, SimpleChanges,DoCheck } from '@angular/core';
 import { MapsAPILoader, AgmMap } from '@agm/core';
 import { GoogleMapsAPIWrapper } from '@agm/core/services';
 import { GeocoderService } from '../../services/geocoder.service';
+
 
 declare var google: any;
 
@@ -10,10 +11,12 @@ declare var google: any;
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit {
-
+export class MapComponent implements OnInit, OnChanges, DoCheck  {
+  @Input() indexCard:any;
+  @Output() mapEmitEvent:EventEmitter<any> = new EventEmitter<any>();
   geocoder:any;
   address:string;
+  changeLog:any = [];
 
   public zoom = 16;
   public radius = 500;
@@ -55,15 +58,38 @@ export class MapComponent implements OnInit {
     this.zone = zone;
     this.wrapper = wrapper;
     this.mapsApiLoader.load().then(() => {
-    this.geocoder = new google.maps.Geocoder();
+      this.geocoder = new google.maps.Geocoder();
     });
   
    }
 
+  ngOnChanges(changes: SimpleChanges) {
+    // //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    // //Add '${implements OnChanges}' to the class.
+    // // alert(this.commonRoutes[changes.indexCard.currentValue]);
+    for (let propName in changes) {
+      let chng = changes[propName];
+      let cur  = chng.currentValue;
+      // this.changeLog.push(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
+      console.log(cur);
+
+      this.commonRoutes[cur.index].visible = cur.visible;
+    }
+    // let changed = changes[this.indexCard];
+    // let current = JSON.stringify(changed.currentValue);
+    // console.log(current);
+    // console.log(this.commonRoutes[this.indexCard.index].visible);
+    
+  }
+
   ngOnInit() {
     this.getUserLocation();
   }
-  
+
+  ngDoCheck(){
+    if(this.co)
+  }
+
   searchRoutes(item:any){
     this.geocoderService.getRoutes(this.radius,item.location.lat,item.location.lng)
     .subscribe((data:any)=>{
@@ -110,14 +136,28 @@ export class MapComponent implements OnInit {
     });
 
     this.commonRoutes = commonRoutes;
-
+    this.setRandomColor();
     if(commonRoutes.length==0){
       // alert("No se encontraron rutas que coincidan con los puntos");
     }
     console.log(commonRoutes);
-
+    this.mapEmitEvent.emit(commonRoutes);
     this.destiny.routeNames=[];
     this.destiny.nearRoutes=[];
+  }
+
+  getRandomColor(){
+    var color = Math.floor(0x1000000 * Math.random()).toString(16);
+    return '#' + ('000000' + color).slice(-6);
+
+  }
+
+  setRandomColor() {
+   
+    for (let index = 0; index < this.commonRoutes.length; index++) {
+      this.commonRoutes[index].color = this.getRandomColor();
+      this.commonRoutes[index].visible = true;
+    }
   }
 
   getUserLocation(){
