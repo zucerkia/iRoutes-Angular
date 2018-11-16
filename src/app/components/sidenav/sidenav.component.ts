@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MapComponent } from '../map/map.component';
-import { ThrowStmt } from '@angular/compiler';
+import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'app-sidenav',
@@ -10,9 +10,12 @@ import { ThrowStmt } from '@angular/compiler';
 export class SidenavComponent implements OnInit{
 
   commonRoutes:any = []
+  indexCard:any = {};
 
   public isOpen: boolean;
   @ViewChild('map') map:MapComponent; 
+  @ViewChild('card') card:CardComponent; 
+
   constructor() {
     this.isOpen = false;
   }
@@ -21,6 +24,16 @@ export class SidenavComponent implements OnInit{
     .subscribe(res=>{
       this.commonRoutes = res;
     });
+
+    // this.card.indexEmitEvent
+    // .subscribe(res=>{
+    //   console.log("cosas perro " + res);
+    //   this.indexCard = res;
+    // });
+  }
+  receiveIndex($event){
+    this.indexCard = $event;
+    console.log(this.indexCard);
   }
   toggle(){
     this.isOpen = !this.isOpen;

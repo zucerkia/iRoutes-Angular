@@ -6,7 +6,7 @@
         <h3>{{cardRoute.Nombre}}</h3>
         <h6>{{cardRoute.Tarifa}}</h6>
       </div>
-      <div class="btn" [ngStyle]="{'background-color':cardRoute.color}" (click)="status=!status">
+      <div class="btn" [ngStyle]="{'background-color':cardRoute.color}" (click)="status=!status; sendIndex()">
         <a class="icon -plus" [ngClass]="status ? 'active' : ''">
           <span ></span>
           <span ></span>
