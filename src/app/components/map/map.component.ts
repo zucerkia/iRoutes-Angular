@@ -111,7 +111,7 @@ export class MapComponent implements OnInit {
     });
 
     this.commonRoutes = commonRoutes;
-
+    this.setRandomColor();
     if(commonRoutes.length==0){
       // alert("No se encontraron rutas que coincidan con los puntos");
     }
@@ -119,6 +119,19 @@ export class MapComponent implements OnInit {
     this.mapEmitEvent.emit(commonRoutes);
     this.destiny.routeNames=[];
     this.destiny.nearRoutes=[];
+  }
+
+  getRandomColor(){
+    var color = Math.floor(0x1000000 * Math.random()).toString(16);
+    return '#' + ('000000' + color).slice(-6);
+
+  }
+
+  setRandomColor() {
+   
+    for (let index = 0; index < this.commonRoutes.length; index++) {
+      this.commonRoutes[index].color = this.getRandomColor();
+    }
   }
 
   getUserLocation(){
