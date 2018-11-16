@@ -89,3 +89,9 @@ h2 {
   font-weight: 400;
   color: #999;
 }
+
+@media only screen  and (max-width: 600px){
+  app-card{
+    width:80%;
+  }
+}

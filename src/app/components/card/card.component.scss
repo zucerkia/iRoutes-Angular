@@ -25,12 +25,8 @@ $thick :4px;
     border-radius: 50%;
     overflow: hidden;
     border: 5px solid #fafafa;
-    // background: #C33764;
-    // background: -webkit-linear-gradient(45deg, #1D2671 10%, #C33764 80%);
-    // background: linear-gradient(45deg, #1D2671 10%, #C33764 80%);
     margin-left: -50px;
     box-shadow: 0 0 0.6rem #868686;
-    animation: rotate-photo 1.5s infinite linear;
   }
   .content {
     padding: 10px;
@@ -44,8 +40,6 @@ $thick :4px;
       content: "";
       position: absolute;
       background: black;
-    // background: -webkit-linear-gradient(45deg, #1D2671 10%, #C33764 80%);
-    // background: linear-gradient(45deg, #1D2671 10%, #C33764 80%);
       width: 230px;
       height: 150px;
       left: 0;
@@ -60,15 +54,13 @@ $thick :4px;
       h3, h6 {
         font-weight: normal;
         margin: 3px 0;
+        font-family: 'Niramit', serif;
         letter-spacing: 0.5px;
         white-space: nowrap;
         color: white;
       }
     }
     .btn {
-      // background: #C33764;
-    // background: -webkit-linear-gradient(45deg, #1D2671 10%, #C33764 80%);
-    // background: linear-gradient(45deg, #1D2671 10%, #C33764 80%);
       width: 50px;
       height: 50px;
       position: absolute;
@@ -82,16 +74,6 @@ $thick :4px;
       &:hover {
         box-shadow: 0 0 0.9rem #C33764;
       }
-      // span {
-      //   width: 60%;
-      //   height: 2px;
-      //   position: absolute;
-      //   background-color: white;
-      //   top: 50%;
-      //   left: 20%;
-      //   transform: translateY(-50%);
-      //   animation: to-hamburger 0.3s forwards ease-in-out;
-      // }
     }
   }
 .icon {
@@ -155,13 +137,6 @@ $thick :4px;
   
 }
 
-@keyframes rotate-photo {
-  100% {
-    transform: rotate(-360deg);
-  }
-}
-
-
 @keyframes pop-btn {
   0% {
     transform: scale(0);
@@ -175,4 +150,27 @@ $thick :4px;
     transform: scale(1);
   }
  }
+}
+@media only screen and (max-width: 600px){
+  .card{
+    margin-left: 0.8em;
+  }
+  .profile{
+    width: 100%;
+    height: auto;
+
+    .content{
+      border-radius: 5px;
+
+      
+      .text{
+        margin-top: 0px;
+      }
+      .btn{
+        bottom: 5px;
+        right: 5px;
+        top:45px;
+      }
+    }
+  }
 }
